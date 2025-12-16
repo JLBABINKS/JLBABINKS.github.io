@@ -554,7 +554,8 @@
         .price-badge {
             position: absolute;
             top: -15px;
-            right: 30px;
+            left: 50%;
+            transform: translateX(-50%);
             background: linear-gradient(135deg, #ffd700, #ffed4e);
             color: #333;
             padding: 8px 20px;
@@ -580,6 +581,27 @@
             font-weight: bold;
             color: #8b5cf6;
             line-height: 1;
+        }
+
+        .price-old {
+            display: block;
+            font-size: 24px;
+            color: #888;
+            text-decoration: line-through;
+            margin-bottom: 5px;
+        }
+
+        .price-discount {
+            display: block;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            margin: 10px auto 15px auto;
+            animation: pulse 2s ease-in-out infinite;
+            width: fit-content;
         }
 
         .price-period {
@@ -725,10 +747,12 @@
 
         <div class="pricing-section">
             <div class="price-card">
-                <div class="price-badge">LIFETIME</div>
+                <div class="price-badge">🎄 PROMO NOËL 🎄</div>
                 <h3>Ecto Clicker Premium</h3>
                 <div class="price">
+                    <span class="price-old">20€</span>
                     <span class="price-amount">10€</span>
+                    <span class="price-discount">-50% de réduction !</span>
                     <span class="price-period">Accès à vie</span>
                 </div>
                 <ul class="price-features">

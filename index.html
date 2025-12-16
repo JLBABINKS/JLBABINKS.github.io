@@ -193,9 +193,21 @@
 
         .features {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            grid-template-columns: repeat(5, 1fr);
             gap: 15px;
             margin-bottom: 25px;
+        }
+
+        @media (max-width: 1024px) {
+            .features {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .features {
+                grid-template-columns: repeat(2, 1fr);
+            }
         }
 
         .feature {
@@ -455,18 +467,51 @@
             margin: 0 auto;
         }
 
-        .video-container iframe {
-            width: 100%;
-            border-radius: 12px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        .video-link-btn {
+            display: block;
+            text-decoration: none;
+            cursor: pointer;
         }
 
-        .video-note {
-            text-align: center;
-            color: #c4b5fd;
-            font-size: 12px;
-            margin-top: 10px;
-            font-style: italic;
+        .video-thumbnail {
+            position: relative;
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        .video-thumbnail:hover {
+            transform: scale(1.02);
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.5);
+        }
+
+        .video-thumbnail img {
+            width: 100%;
+            display: block;
+        }
+
+        .play-button {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 80px;
+            height: 80px;
+            background: rgba(139, 92, 246, 0.9);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 32px;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .video-thumbnail:hover .play-button {
+            background: rgba(107, 33, 168, 1);
+            transform: translate(-50%, -50%) scale(1.1);
         }
 
         .pricing-section {
@@ -564,6 +609,28 @@
             transform: translateY(-3px) scale(1.05);
             box-shadow: 0 12px 35px rgba(139, 92, 246, 0.8);
         }
+
+        .footer {
+            text-align: center;
+            padding: 30px 20px;
+            margin-top: 40px;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .footer p {
+            color: #c4b5fd;
+            font-size: 14px;
+            margin: 5px 0;
+        }
+
+        .footer .author {
+            color: #8b5cf6;
+            font-weight: bold;
+            font-size: 16px;
+        }
     </style>
 </head>
 <body>
@@ -599,6 +666,10 @@
             <div class="feature">
                 <h3>🛡️ Undetected</h3>
                 <p>Non détecté par les anti-cheats</p>
+            </div>
+            <div class="feature">
+                <h3>🎣 Auto-Rod PvP</h3>
+                <p>Auto canne à pêche pour le PvP</p>
             </div>
             <div class="feature">
                 <h3>⚙️ Configurable</h3>
@@ -645,11 +716,12 @@
                     <span class="price-period">Accès à vie</span>
                 </div>
                 <ul class="price-features">
+                    <li>✓ Auto-clicker ultra rapide</li>
+                    <li>✓ Auto-rod canne à pêche PvP</li>
                     <li>✓ Undetected par tous les anti-cheats</li>
                     <li>✓ Mises à jour gratuites à vie</li>
                     <li>✓ Support prioritaire sur Discord</li>
                     <li>✓ Configuration personnalisable</li>
-                    <li>✓ Compatible toutes versions Minecraft</li>
                 </ul>
                 <button class="buy-btn" onclick="buyNow()">
                     💳 Acheter maintenant
@@ -660,9 +732,15 @@
         <div class="video-section">
             <h3>🎥 Démonstration</h3>
             <div class="video-container">
-                <iframe width="100%" height="400" src="https://www.youtube.com/embed/VOTRE_VIDEO_ID" 
-                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                        allowfullscreen></iframe>
+                <a href="https://youtu.be/pZ-Vu73ay0Y" target="_blank" class="video-link-btn">
+                    <div class="video-thumbnail">
+                        <img src="https://img.youtube.com/vi/pZ-Vu73ay0Y/maxresdefault.jpg" alt="Démonstration Ecto Clicker">
+                        <div class="play-button">▶</div>
+                    </div>
+                    <p style="color: #c4b5fd; margin-top: 15px; font-size: 16px;">
+                        🎬 Cliquez pour voir la démonstration sur YouTube
+                    </p>
+                </a>
             </div>
         </div>
 
@@ -676,6 +754,11 @@
                 </a>
             </div>
         </div>
+    </div>
+
+    <div class="footer">
+        <p>© 2025 Ecto Clicker - Tous droits réservés</p>
+        <p>Fait par <span class="author">Wamuu</span></p>
     </div>
 
     <script>

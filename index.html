@@ -74,7 +74,9 @@
         .logo {
             width: 60px;
             height: 60px;
-            background: linear-gradient(135deg, #8b5cf6 0%, #6b21a8 100%);
+            background: linear-gradient(135deg, #8b5cf6 0%, #6b21a8 50%, #8b5cf6 100%);
+            background-size: 200% 200%;
+            animation: pulse 3s ease-in-out infinite, gradientShift 3s ease infinite;
             border-radius: 50%;
             display: flex;
             justify-content: center;
@@ -82,8 +84,20 @@
             font-size: 24px;
             font-weight: bold;
             color: white;
-            animation: pulse 3s ease-in-out infinite;
             box-shadow: 0 5px 15px rgba(139, 92, 246, 0.6);
+            overflow: hidden;
+        }
+
+        .logo img {
+            width: 45px;
+            height: 45px;
+            object-fit: contain;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .header h1 {
@@ -636,7 +650,9 @@
 <body>
     <div class="header">
         <div class="header-left">
-            <div class="logo">EC</div>
+            <div class="logo">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png" alt="Gengar">
+            </div>
             <h1>Ecto Clicker</h1>
         </div>
     </div>
@@ -648,7 +664,7 @@
                 UNDETECTED
             </div>
             <div class="minecraft-icon">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/93.png" alt="Ectoplasma">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png" alt="Gengar">
             </div>
             <h2>Ecto Clicker pour Minecraft</h2>
             <p>Le meilleur auto-clicker pour Minecraft</p>

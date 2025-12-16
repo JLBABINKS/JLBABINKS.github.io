@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Téléchargement - Ecto Clicker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        @keyframes gradient {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(46, 204, 113, 0.5); }
+            50% { box-shadow: 0 0 40px rgba(46, 204, 113, 0.8); }
+        }
+
+        @keyframes ghostFloat {
+            0%, 100% { transform: translateY(0px) rotate(-3deg); }
+            50% { transform: translateY(-15px) rotate(3deg); }
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #1a1a2e);
+            background-size: 400% 400%;
+            animation: gradient 15s ease infinite;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .header {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(138, 43, 226, 0.3);
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .header:hover {
+            box-shadow: 0 20px 45px rgba(138, 43, 226, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6b21a8 100%);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+            animation: pulse 3s ease-in-out infinite;
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.6);
+        }
+
+        .header h1 {
+            color: #fff;
+            font-size: 28px;
+            text-shadow: 2px 2px 4px rgba(138, 43, 226, 0.5);
+        }
+
+        .logout-btn {
+            padding: 10px 20px;
+            background: linear-gradient(135deg, #e74c3c, #c0392b);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 14px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.5);
+        }
+
+        .download-container {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(138, 43, 226, 0.3);
+            max-width: 900px;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .download-container:hover {
+            box-shadow: 0 25px 70px rgba(138, 43, 226, 0.5);
+        }
+
+        .download-header {
+            text-align: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+
+        .download-header h2 {
+            color: #fff;
+            font-size: 28px;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 4px rgba(138, 43, 226, 0.5);
+            font-weight: 700;
+        }
+
+        .download-header p {
+            color: #c4b5fd;
+            font-size: 18px;
+        }
+
+        .status-badge {
+            position: absolute;
+            top: -10px;
+            right: 20px;
+            background: linear-gradient(135deg, #2ecc71, #27ae60);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        .status-dot {
+            width: 10px;
+            height: 10px;
+            background: #fff;
+            border-radius: 50%;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .minecraft-icon {
+            width: 100px;
+            height: 100px;
+            margin: 0 auto 15px;
+            background: linear-gradient(135deg, #9b59b6 0%, #8e44ad 100%);
+            border-radius: 25px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 10px 30px rgba(155, 89, 182, 0.5);
+            overflow: hidden;
+        }
+
+        .minecraft-icon img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+            filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .feature {
+            padding: 15px;
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.8) 0%, rgba(15, 52, 96, 0.8) 100%);
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            cursor: pointer;
+        }
+
+        .feature:hover {
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.5);
+            border-color: #8b5cf6;
+            background: linear-gradient(135deg, rgba(22, 33, 62, 1) 0%, rgba(15, 52, 96, 1) 100%);
+        }
+
+        .feature h3 {
+            color: #fff;
+            margin-bottom: 8px;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .feature p {
+            color: #c4b5fd;
+            font-size: 13px;
+        }
+
+        .download-section {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .version-info {
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            padding: 20px;
+            border-radius: 12px;
+            margin-bottom: 25px;
+            border: 2px solid #dee2e6;
+            transition: all 0.3s ease;
+        }
+
+        .version-info:hover {
+            border-color: #667eea;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .version-info p {
+            color: #555;
+            margin: 8px 0;
+            font-size: 15px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            padding: 18px 50px;
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: none;
+            box-shadow: 0 8px 25px rgba(46, 204, 113, 0.4);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .download-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.3);
+            transition: left 0.5s ease;
+        }
+
+        .download-btn:hover::before {
+            left: 100%;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(46, 204, 113, 0.6);
+        }
+
+        .instructions {
+            background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+            padding: 25px;
+            border-radius: 15px;
+            border-left: 5px solid #ffc107;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(255, 193, 7, 0.2);
+        }
+
+        .instructions:hover {
+            box-shadow: 0 8px 25px rgba(255, 193, 7, 0.3);
+            transform: translateX(5px);
+        }
+
+        .instructions h3 {
+            color: #856404;
+            margin-bottom: 15px;
+            font-size: 20px;
+            font-weight: 600;
+        }
+
+        .instructions ol {
+            margin-left: 20px;
+            color: #856404;
+        }
+
+        .instructions li {
+            margin-bottom: 12px;
+            font-size: 15px;
+            transition: all 0.2s ease;
+        }
+
+        .instructions li:hover {
+            transform: translateX(5px);
+            color: #664d03;
+        }
+
+        .discord-section {
+            margin-top: 30px;
+            padding: 35px;
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.8) 0%, rgba(15, 52, 96, 0.8) 100%);
+            border-radius: 15px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 2px solid rgba(88, 101, 242, 0.3);
+        }
+
+        .discord-section:hover {
+            border-color: #5865F2;
+            box-shadow: 0 10px 30px rgba(88, 101, 242, 0.5);
+        }
+
+        .discord-section h3 {
+            color: #fff;
+            margin-bottom: 10px;
+            font-size: 26px;
+            font-weight: 700;
+        }
+
+        .discord-section p {
+            color: #c4b5fd;
+            margin-bottom: 20px;
+            font-size: 16px;
+        }
+
+        .discord-section iframe {
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+            transition: all 0.3s ease;
+        }
+
+        .discord-section iframe:hover {
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            transform: scale(1.02);
+        }
+
+        .discord-btn {
+            display: inline-block;
+            padding: 15px 35px;
+            background: linear-gradient(135deg, #5865F2, #4752C4);
+            color: white;
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            box-shadow: 0 6px 20px rgba(88, 101, 242, 0.4);
+        }
+
+        .discord-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 10px 30px rgba(88, 101, 242, 0.6);
+        }
+
+        .anticheat-section {
+            margin-bottom: 25px;
+            padding: 20px;
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.8) 0%, rgba(15, 52, 96, 0.8) 100%);
+            border-radius: 15px;
+            border: 2px solid #4caf50;
+        }
+
+        .anticheat-section h3 {
+            color: #fff;
+            margin-bottom: 15px;
+            font-size: 20px;
+            text-align: center;
+        }
+
+        .anticheat-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+        }
+
+        .anticheat-item {
+            background: rgba(26, 26, 46, 0.9);
+            padding: 10px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(76, 175, 80, 0.3);
+            border: 1px solid rgba(76, 175, 80, 0.3);
+        }
+
+        .anticheat-item:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(76, 175, 80, 0.3);
+        }
+
+        .check-icon {
+            color: #4caf50;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .anticheat-item p {
+            color: #fff;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        .video-section {
+            margin-bottom: 40px;
+            padding: 30px;
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.8) 0%, rgba(15, 52, 96, 0.8) 100%);
+            border-radius: 15px;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .video-section h3 {
+            color: #fff;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: center;
+        }
+
+        .video-container {
+            position: relative;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .video-container iframe {
+            width: 100%;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .video-note {
+            text-align: center;
+            color: #c4b5fd;
+            font-size: 12px;
+            margin-top: 10px;
+            font-style: italic;
+        }
+
+        .pricing-section {
+            margin-bottom: 25px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .price-card {
+            background: linear-gradient(135deg, rgba(22, 33, 62, 0.9) 0%, rgba(15, 52, 96, 0.9) 100%);
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.4);
+            max-width: 450px;
+            text-align: center;
+            position: relative;
+            border: 3px solid #8b5cf6;
+            transition: all 0.3s ease;
+        }
+
+        .price-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 50px rgba(138, 43, 226, 0.6);
+        }
+
+        .price-badge {
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: linear-gradient(135deg, #ffd700, #ffed4e);
+            color: #333;
+            padding: 8px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
+        }
+
+        .price-card h3 {
+            color: #fff;
+            font-size: 28px;
+            margin-bottom: 20px;
+        }
+
+        .price {
+            margin-bottom: 20px;
+        }
+
+        .price-amount {
+            display: block;
+            font-size: 42px;
+            font-weight: bold;
+            color: #8b5cf6;
+            line-height: 1;
+        }
+
+        .price-period {
+            color: #c4b5fd;
+            font-size: 16px;
+        }
+
+        .price-features {
+            list-style: none;
+            padding: 0;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .price-features li {
+            padding: 12px 0;
+            color: #c4b5fd;
+            font-size: 15px;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .price-features li:last-child {
+            border-bottom: none;
+        }
+
+        .buy-btn {
+            width: 100%;
+            padding: 18px 40px;
+            background: linear-gradient(135deg, #8b5cf6 0%, #6b21a8 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+        }
+
+        .buy-btn:hover {
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 12px 35px rgba(139, 92, 246, 0.8);
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="header-left">
+            <div class="logo">EC</div>
+            <h1>Ecto Clicker</h1>
+        </div>
+    </div>
+
+    <div class="download-container">
+        <div class="download-header">
+            <div class="status-badge">
+                <div class="status-dot"></div>
+                UNDETECTED
+            </div>
+            <div class="minecraft-icon">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/93.png" alt="Ectoplasma">
+            </div>
+            <h2>Ecto Clicker pour Minecraft</h2>
+            <p>Le meilleur auto-clicker pour Minecraft</p>
+        </div>
+
+        <div class="features">
+            <div class="feature">
+                <h3>⚡ Ultra Rapide</h3>
+                <p>Clics ultra-rapides et précis</p>
+            </div>
+            <div class="feature">
+                <h3>🎮 Compatible</h3>
+                <p>Fonctionne avec toutes les versions</p>
+            </div>
+            <div class="feature">
+                <h3>🛡️ Undetected</h3>
+                <p>Non détecté par les anti-cheats</p>
+            </div>
+            <div class="feature">
+                <h3>⚙️ Configurable</h3>
+                <p>Personnalisez vos paramètres</p>
+            </div>
+        </div>
+
+        <div class="anticheat-section">
+            <h3>🛡️ Anti-Cheat Bypass</h3>
+            <div class="anticheat-grid">
+                <div class="anticheat-item">
+                    <span class="check-icon">✓</span>
+                    <p>RinAorc</p>
+                </div>
+                <div class="anticheat-item">
+                    <span class="check-icon">✓</span>
+                    <p>Spartan</p>
+                </div>
+                <div class="anticheat-item">
+                    <span class="check-icon">✓</span>
+                    <p>Matrix</p>
+                </div>
+                <div class="anticheat-item">
+                    <span class="check-icon">✓</span>
+                    <p>Vulcan</p>
+                </div>
+                <div class="anticheat-item">
+                    <span class="check-icon">✓</span>
+                    <p>NCP</p>
+                </div>
+                <div class="anticheat-item">
+                    <span class="check-icon">✓</span>
+                    <p>AAC</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="pricing-section">
+            <div class="price-card">
+                <div class="price-badge">LIFETIME</div>
+                <h3>Ecto Clicker Premium</h3>
+                <div class="price">
+                    <span class="price-amount">10€</span>
+                    <span class="price-period">Accès à vie</span>
+                </div>
+                <ul class="price-features">
+                    <li>✓ Undetected par tous les anti-cheats</li>
+                    <li>✓ Mises à jour gratuites à vie</li>
+                    <li>✓ Support prioritaire sur Discord</li>
+                    <li>✓ Configuration personnalisable</li>
+                    <li>✓ Compatible toutes versions Minecraft</li>
+                </ul>
+                <button class="buy-btn" onclick="buyNow()">
+                    💳 Acheter maintenant
+                </button>
+            </div>
+        </div>
+
+        <div class="video-section">
+            <h3>🎥 Démonstration</h3>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/VOTRE_VIDEO_ID" 
+                        frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                        allowfullscreen></iframe>
+            </div>
+        </div>
+
+        <div class="discord-section">
+            <h3>💬 Rejoignez notre communauté Discord</h3>
+            <p>Besoin d'aide ? Des questions ? Rejoignez notre serveur Discord !</p>
+            <iframe src="https://discord.com/widget?id=1126851969936539688&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+            <div class="discord-link">
+                <a href="https://discord.gg/NrEUhJdkbH" target="_blank" class="discord-btn">
+                    🎮 Rejoindre le Discord
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function buyNow() {
+            // Redirection vers le Discord pour l'achat
+            window.open('https://discord.gg/NrEUhJdkbH', '_blank');
+            alert('🎮 Vous allez être redirigé vers notre Discord !\n\n' +
+                  '📝 Pour acheter Ecto Clicker :\n' +
+                  '1. Rejoignez notre serveur Discord\n' +
+                  '2. Contactez un administrateur\n' +
+                  '3. Effectuez le paiement de 10€\n' +
+                  '4. Recevez votre accès immédiatement !\n\n' +
+                  '💳 Paiement sécurisé - Accès à vie');
+        }
+    </script>
+</body>
+</html>

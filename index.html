@@ -668,6 +668,355 @@
             font-weight: bold;
             font-size: 16px;
         }
+
+        /* Notification Pop-ups */
+        .notification-container {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .notification {
+            background: rgba(26, 26, 46, 0.98);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            border-radius: 12px;
+            padding: 15px 20px;
+            box-shadow: 0 10px 30px rgba(138, 43, 226, 0.4);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            min-width: 300px;
+            animation: slideInLeft 0.5s ease-out, fadeOut 0.5s ease-out 4.5s forwards;
+            transition: all 0.3s ease;
+        }
+
+        .notification:hover {
+            transform: translateX(5px);
+            box-shadow: 0 15px 35px rgba(138, 43, 226, 0.6);
+        }
+
+        @keyframes slideInLeft {
+            from {
+                transform: translateX(-100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeOut {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0;
+                transform: translateX(-20px);
+            }
+        }
+
+        .notification-icon {
+            font-size: 24px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .notification-content {
+            flex: 1;
+        }
+
+        .notification-text {
+            color: #ffffff;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 3px;
+        }
+
+        .notification-location {
+            color: #8b5cf6;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .notification-flag {
+            font-size: 20px;
+        }
+
+        /* Countdown Timer */
+        .countdown-section {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            padding: 20px;
+            border-radius: 15px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
+            border: 2px solid rgba(255, 107, 107, 0.5);
+        }
+
+        .countdown-title {
+            color: white;
+            font-size: 22px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .countdown-timer {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .countdown-item {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            padding: 15px 25px;
+            border-radius: 12px;
+            min-width: 80px;
+        }
+
+        .countdown-number {
+            display: block;
+            font-size: 36px;
+            font-weight: bold;
+            color: white;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .countdown-label {
+            display: block;
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.9);
+            text-transform: uppercase;
+            margin-top: 5px;
+        }
+
+        /* Purchase Counter */
+        .purchase-counter {
+            background: linear-gradient(135deg, #2ecc71 0%, #27ae60 100%);
+            padding: 15px 25px;
+            border-radius: 12px;
+            text-align: center;
+            margin-bottom: 25px;
+            box-shadow: 0 10px 25px rgba(46, 204, 113, 0.4);
+            border: 2px solid rgba(46, 204, 113, 0.5);
+        }
+
+        .purchase-counter-text {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .purchase-number {
+            color: #fff59d;
+            font-size: 24px;
+        }
+
+        /* Comparison Section */
+        .comparison-section {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(138, 43, 226, 0.3);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .comparison-section h3 {
+            color: #8b5cf6;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+
+        .comparison-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .comparison-table th,
+        .comparison-table td {
+            padding: 15px;
+            text-align: center;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .comparison-table th {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6b21a8 100%);
+            color: white;
+            font-weight: bold;
+        }
+
+        .comparison-table td {
+            color: #c4b5fd;
+            background: rgba(22, 33, 62, 0.5);
+        }
+
+        .comparison-table .ecto-column {
+            background: linear-gradient(135deg, rgba(139, 92, 246, 0.3) 0%, rgba(107, 33, 168, 0.3) 100%);
+        }
+
+        .check-yes {
+            color: #2ecc71;
+            font-size: 20px;
+        }
+
+        .check-no {
+            color: #e74c3c;
+            font-size: 20px;
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            box-shadow: 0 15px 35px rgba(138, 43, 226, 0.3);
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        .faq-section h3 {
+            color: #8b5cf6;
+            text-align: center;
+            font-size: 28px;
+            margin-bottom: 25px;
+        }
+
+        .faq-item {
+            background: rgba(22, 33, 62, 0.5);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .faq-item:hover {
+            border-color: #8b5cf6;
+            box-shadow: 0 5px 20px rgba(138, 43, 226, 0.4);
+            transform: translateY(-2px);
+        }
+
+        .faq-question {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 10px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .faq-answer {
+            color: #c4b5fd;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+
+        /* Live Chat Bubble */
+        .chat-bubble {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            z-index: 10000;
+        }
+
+        .chat-button {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6b21a8 100%);
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 8px 25px rgba(139, 92, 246, 0.6);
+            transition: all 0.3s ease;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .chat-button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 12px 35px rgba(139, 92, 246, 0.8);
+        }
+
+        .chat-button-icon {
+            font-size: 28px;
+        }
+
+        .chat-popup {
+            display: none;
+            position: absolute;
+            bottom: 80px;
+            right: 0;
+            width: 300px;
+            background: rgba(26, 26, 46, 0.98);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 15px 40px rgba(138, 43, 226, 0.5);
+        }
+
+        .chat-popup.active {
+            display: block;
+            animation: slideUp 0.3s ease-out;
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .chat-header {
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
+        }
+
+        .chat-message {
+            color: #c4b5fd;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+
+        .chat-cta {
+            background: linear-gradient(135deg, #8b5cf6 0%, #6b21a8 100%);
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 8px;
+            width: 100%;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        .chat-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 92, 246, 0.6);
+        }
     </style>
 </head>
 <body>
@@ -746,6 +1095,12 @@
             </div>
         </div>
 
+        <div class="purchase-counter">
+            <div class="purchase-counter-text">
+                🔥 <span class="purchase-number" id="purchaseCount">0</span> purchases in the last 24 hours!
+            </div>
+        </div>
+
         <div class="pricing-section">
             <div class="price-card">
                 <div class="price-badge">🎄 CHRISTMAS SALE 🎄</div>
@@ -785,6 +1140,79 @@
             </div>
         </div>
 
+        <div class="comparison-section">
+            <h3>🆚 Why Choose Ecto Clicker?</h3>
+            <table class="comparison-table">
+                <thead>
+                    <tr>
+                        <th>Feature</th>
+                        <th class="ecto-column">Ecto Clicker</th>
+                        <th>Other Clickers</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Undetected</td>
+                        <td class="ecto-column"><span class="check-yes">✓</span></td>
+                        <td><span class="check-no">✗</span></td>
+                    </tr>
+                    <tr>
+                        <td>Auto-Rod Feature</td>
+                        <td class="ecto-column"><span class="check-yes">✓</span></td>
+                        <td><span class="check-no">✗</span></td>
+                    </tr>
+                    <tr>
+                        <td>Customizable CPS</td>
+                        <td class="ecto-column"><span class="check-yes">✓</span></td>
+                        <td><span class="check-yes">✓</span></td>
+                    </tr>
+                    <tr>
+                        <td>Lifetime Updates</td>
+                        <td class="ecto-column"><span class="check-yes">✓</span></td>
+                        <td><span class="check-no">✗</span></td>
+                    </tr>
+                    <tr>
+                        <td>24/7 Support</td>
+                        <td class="ecto-column"><span class="check-yes">✓</span></td>
+                        <td><span class="check-no">✗</span></td>
+                    </tr>
+                    <tr>
+                        <td>Price</td>
+                        <td class="ecto-column">€10</td>
+                        <td>€15-30</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="faq-section">
+            <h3>❓ Frequently Asked Questions</h3>
+            <div class="faq-item">
+                <div class="faq-question">🛡️ Is Ecto Clicker safe to use?</div>
+                <div class="faq-answer">Yes! Ecto Clicker is completely undetected by all major anti-cheats including Hypixel Watchdog, AAC, NCP, and more. Our advanced randomization technology ensures you stay safe.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">💻 What operating systems are supported?</div>
+                <div class="faq-answer">Ecto Clicker works on Windows 10 and Windows 11. We're working on Mac support for future updates!</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">🔄 Do I get free updates?</div>
+                <div class="faq-answer">Absolutely! Your purchase includes lifetime free updates. We constantly improve the software and add new features.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">💳 What payment methods do you accept?</div>
+                <div class="faq-answer">We accept PayPal, credit cards, and cryptocurrencies. All payments are processed securely through our Discord server.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">⚡ How fast is the delivery?</div>
+                <div class="faq-answer">Instant! Once payment is confirmed, you'll receive your license key and download link immediately in Discord.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">🎮 Can I use it on multiple PCs?</div>
+                <div class="faq-answer">Each license is valid for one PC. If you need multiple licenses, contact us for a discount!</div>
+            </div>
+        </div>
+
         <div class="discord-section">
             <h3>💬 Join Our Premium Community</h3>
             <p>Need help? Have questions? Join our exclusive Discord server!</p>
@@ -802,7 +1230,32 @@
         <p>Crafted by <span class="author">Wamuu</span></p>
     </div>
 
+    <!-- Notification Container -->
+    <div class="notification-container" id="notificationContainer"></div>
+
+    <!-- Live Chat Bubble -->
+    <div class="chat-bubble">
+        <div class="chat-button" onclick="toggleChat()">
+            <span class="chat-button-icon">💬</span>
+        </div>
+        <div class="chat-popup" id="chatPopup">
+            <div class="chat-header">Need Help? 👋</div>
+            <div class="chat-message">
+                Hi! Have questions about Ecto Clicker? Our support team is available 24/7 on Discord!
+            </div>
+            <button class="chat-cta" onclick="openDiscord()">Chat on Discord</button>
+        </div>
+    </div>
+
     <script>
+        function toggleChat() {
+            const popup = document.getElementById('chatPopup');
+            popup.classList.toggle('active');
+        }
+
+        function openDiscord() {
+            window.open('https://discord.gg/NrEUhJdkbH', '_blank');
+        }
         function buyNow() {
             // Redirect to Discord for purchase
             window.open('https://discord.gg/NrEUhJdkbH', '_blank');
@@ -814,6 +1267,93 @@
                   '4. Receive instant access!\n\n' +
                   '💳 Secure Payment - Lifetime Access');
         }
+
+        // Notification System
+        const locations = [
+            { country: 'United States', flag: '🇺🇸' },
+            { country: 'United Kingdom', flag: '🇬🇧' },
+            { country: 'Germany', flag: '🇩🇪' },
+            { country: 'France', flag: '🇫🇷' },
+            { country: 'Canada', flag: '🇨🇦' },
+            { country: 'Australia', flag: '🇦🇺' },
+            { country: 'Japan', flag: '🇯🇵' },
+            { country: 'Brazil', flag: '🇧🇷' },
+            { country: 'Netherlands', flag: '🇳🇱' },
+            { country: 'Spain', flag: '🇪🇸' },
+            { country: 'Italy', flag: '🇮🇹' },
+            { country: 'Sweden', flag: '🇸🇪' },
+            { country: 'Norway', flag: '🇳🇴' },
+            { country: 'Poland', flag: '🇵🇱' },
+            { country: 'Belgium', flag: '🇧🇪' },
+            { country: 'Switzerland', flag: '🇨🇭' }
+        ];
+
+        const messages = [
+            'Someone is viewing this page right now',
+            'Someone just checked out this page',
+            'A visitor is exploring this page',
+            'Someone is currently browsing'
+        ];
+
+        function createNotification() {
+            const container = document.getElementById('notificationContainer');
+            const location = locations[Math.floor(Math.random() * locations.length)];
+            const message = messages[Math.floor(Math.random() * messages.length)];
+            
+            const notification = document.createElement('div');
+            notification.className = 'notification';
+            notification.innerHTML = `
+                <div class="notification-flag">🌍</div>
+                <div class="notification-content">
+                    <div class="notification-text">${message}</div>
+                    <div class="notification-location">${location.flag} From ${location.country}</div>
+                </div>
+                <div class="notification-icon">👁️</div>
+            `;
+            
+            container.appendChild(notification);
+            
+            // Remove notification after 5 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+        }
+
+        // Show first notification after 2 seconds
+        setTimeout(createNotification, 2000);
+
+        // Show random notifications every 8-15 seconds
+        function scheduleNextNotification() {
+            const delay = Math.random() * 7000 + 8000; // Between 8-15 seconds
+            setTimeout(() => {
+                createNotification();
+                scheduleNextNotification();
+            }, delay);
+        }
+
+        scheduleNextNotification();
+
+        // Purchase Counter Animation
+        function animatePurchaseCounter() {
+            const target = Math.floor(Math.random() * 17) + 4; // Random between 4-20
+            let current = 0;
+            const increment = target / 50;
+            const counter = document.getElementById('purchaseCount');
+
+            const timer = setInterval(() => {
+                current += increment;
+                if (current >= target) {
+                    counter.textContent = target;
+                    clearInterval(timer);
+                } else {
+                    counter.textContent = Math.floor(current);
+                }
+            }, 30);
+        }
+
+        animatePurchaseCounter();
+        // Update counter every 10 minutes
+        setInterval(animatePurchaseCounter, 600000);
     </script>
 </body>
-</html>
+</html> 

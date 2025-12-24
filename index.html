@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Ecto Clicker - Premium Minecraft Auto-Clicker</title>
     <link rel="icon" type="image/png" href="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -12,492 +15,482 @@
             box-sizing: border-box;
         }
 
-        @keyframes gradient {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
+        :root {
+            --cold-bg: #0a0e27;
+            --cold-secondary: #151b3d;
+            --cold-accent: #1a2249;
+            --warm-primary: #ff6b35;
+            --warm-secondary: #f7931e;
+            --warm-accent: #ffd700;
+            --text-primary: #ffffff;
+            --text-secondary: #b8c5d6;
+            --text-muted: #6b7b94;
         }
 
         @keyframes float {
             0%, 100% { transform: translateY(0px); }
-            50% { transform: translateY(-20px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 20px rgba(255, 107, 53, 0.3); }
+            50% { box-shadow: 0 0 40px rgba(255, 107, 53, 0.5); }
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         @keyframes pulse {
             0%, 100% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-        }
-
-        @keyframes glow {
-            0%, 100% { box-shadow: 0 0 20px rgba(58, 125, 92, 0.5); }
-            50% { box-shadow: 0 0 40px rgba(58, 125, 92, 0.8); }
-        }
-
-        @keyframes ghostFloat {
-            0%, 100% { transform: translateY(0px) rotate(-3deg); }
-            50% { transform: translateY(-15px) rotate(3deg); }
+            50% { transform: scale(1.02); }
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: #1a1d23;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(180deg, var(--cold-bg) 0%, var(--cold-secondary) 100%);
             min-height: 100vh;
-            padding: 20px;
+            color: var(--text-primary);
+            line-height: 1.6;
+            overflow-x: hidden;
         }
 
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Header */
         .header {
-            background: rgba(34, 37, 43, 0.95);
+            padding: 30px 0;
+            position: sticky;
+            top: 0;
+            background: rgba(10, 14, 39, 0.95);
             backdrop-filter: blur(10px);
-            padding: 20px;
-            border-radius: 15px;
-            box-shadow: 0 15px 35px rgba(58, 125, 92, 0.3);
-            margin-bottom: 25px;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(255, 107, 53, 0.1);
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 15px;
             transition: all 0.3s ease;
-            border: 1px solid rgba(58, 125, 92, 0.3);
         }
 
-        .header:hover {
-            box-shadow: 0 20px 45px rgba(58, 125, 92, 0.5);
-            transform: translateY(-2px);
-        }
-
-        .header-left {
-            display: flex;
-            align-items: center;
-            gap: 20px;
+        .logo-section:hover {
+            transform: translateX(5px);
         }
 
         .logo {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #3a7d5c 0%, #2d5a45 50%, #3a7d5c 100%);
-            background-size: 200% 200%;
-            animation: pulse 3s ease-in-out infinite, gradientShift 3s ease infinite;
-            border-radius: 50%;
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--warm-primary), var(--warm-secondary));
+            border-radius: 12px;
             display: flex;
-            justify-content: center;
             align-items: center;
-            font-size: 24px;
-            font-weight: bold;
-            color: white;
-            box-shadow: 0 5px 15px rgba(58, 125, 92, 0.6);
-            overflow: hidden;
+            justify-content: center;
+            transition: all 0.4s ease;
+            box-shadow: 0 4px 15px rgba(255, 107, 53, 0.3);
+        }
+
+        .logo:hover {
+            transform: rotate(-5deg) scale(1.1);
+            box-shadow: 0 8px 25px rgba(255, 107, 53, 0.5);
         }
 
         .logo img {
-            width: 45px;
-            height: 45px;
+            width: 35px;
+            height: 35px;
             object-fit: contain;
         }
 
-        @keyframes gradientShift {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        .header h1 {
-            color: #3a7d5c;
-            font-size: 28px;
-            text-shadow: 2px 2px 4px rgba(58, 125, 92, 0.5);
-        }
-
-        .logout-btn {
-            padding: 10px 20px;
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-size: 14px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(231, 76, 60, 0.3);
-        }
-
-        .logout-btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(231, 76, 60, 0.5);
-        }
-
-        .download-container {
-            background: rgba(34, 37, 43, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 25px;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(58, 125, 92, 0.3);
-            max-width: 900px;
-            margin: 0 auto;
-            transition: all 0.3s ease;
-            border: 1px solid rgba(58, 125, 92, 0.3);
-        }
-
-        .download-container:hover {
-            box-shadow: 0 25px 70px rgba(58, 125, 92, 0.5);
-        }
-
-        .download-header {
-            text-align: center;
-            margin-bottom: 25px;
-            position: relative;
-        }
-
-        .download-header h2 {
-            color: #3a7d5c;
-            font-size: 28px;
-            margin-bottom: 8px;
-            text-shadow: 2px 2px 4px rgba(58, 125, 92, 0.5);
+        .brand-name {
+            font-size: 24px;
             font-weight: 700;
+            background: linear-gradient(135deg, var(--warm-primary), var(--warm-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
         }
 
-        .download-header p {
-            color: #95e1af;
-            font-size: 18px;
+        .main-nav {
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            background: rgba(21, 27, 61, 0.6);
+            backdrop-filter: blur(10px);
+            padding: 8px;
+            border-radius: 50px;
+            border: 1px solid rgba(255, 107, 53, 0.15);
+        }
+
+        .nav-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px 24px;
+            border-radius: 50px;
+            position: relative;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, var(--warm-primary), var(--warm-secondary));
+            border-radius: 50px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .nav-link:hover {
+            color: var(--text-primary);
+            transform: translateY(-2px);
+        }
+
+        .nav-link:hover::before {
+            opacity: 1;
         }
 
         .status-badge {
-            position: absolute;
-            top: -10px;
-            right: 20px;
-            background: linear-gradient(135deg, #3a7d5c, #2d5a45);
-            color: white;
-            padding: 8px 16px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.2), rgba(247, 147, 30, 0.2));
+            border: 1px solid var(--warm-primary);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
             display: flex;
             align-items: center;
             gap: 8px;
-            box-shadow: 0 4px 15px rgba(58, 125, 92, 0.4);
-            animation: glow 2s ease-in-out infinite;
+            transition: all 0.3s ease;
+        }
+
+        .status-badge:hover {
+            background: linear-gradient(135deg, rgba(255, 107, 53, 0.3), rgba(247, 147, 30, 0.3));
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255, 107, 53, 0.3);
         }
 
         .status-dot {
-            width: 10px;
-            height: 10px;
-            background: #fff;
+            width: 8px;
+            height: 8px;
+            background: var(--warm-accent);
             border-radius: 50%;
             animation: pulse 2s ease-in-out infinite;
         }
 
-        .minecraft-icon {
-            width: 100px;
-            height: 100px;
-            margin: 0 auto 15px;
-            background: linear-gradient(135deg, #3a7d5c 0%, #2d5a45 100%);
-            border-radius: 25px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            animation: float 3s ease-in-out infinite;
-            box-shadow: 0 10px 30px rgba(58, 125, 92, 0.5);
-            overflow: hidden;
+        /* Hero Section */
+        .hero {
+            padding: 80px 0;
+            text-align: center;
+            animation: slideUp 0.8s ease-out;
         }
 
-        .minecraft-icon img {
-            width: 70px;
-            height: 70px;
+        .hero-icon {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 30px;
+            background: linear-gradient(135deg, var(--warm-primary), var(--warm-secondary));
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            animation: float 3s ease-in-out infinite;
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.4);
+        }
+
+        .hero-icon img {
+            width: 80px;
+            height: 80px;
             object-fit: contain;
             filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3));
         }
 
-        .features {
-            display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 15px;
-            margin-bottom: 25px;
+        .hero h1 {
+            font-size: 56px;
+            font-weight: 800;
+            margin-bottom: 20px;
+            background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -1px;
         }
 
-        @media (max-width: 1024px) {
-            .features {
-                grid-template-columns: repeat(3, 1fr);
-            }
+        .hero-subtitle {
+            font-size: 20px;
+            color: var(--text-secondary);
+            margin-bottom: 40px;
+            font-weight: 400;
         }
 
-        @media (max-width: 768px) {
-            .features {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        .feature {
-            padding: 15px;
-            background: linear-gradient(135deg, rgba(45, 90, 69, 0.8) 0%, rgba(34, 37, 43, 0.8) 100%);
-            border-radius: 15px;
-            text-align: center;
-            transition: all 0.3s ease;
-            border: 2px solid rgba(58, 125, 92, 0.3);
-            cursor: pointer;
-        }
-
-        .feature:hover {
-            transform: translateY(-5px) scale(1.02);
-            box-shadow: 0 10px 30px rgba(58, 125, 92, 0.5);
-            border-color: #3a7d5c;
-            background: linear-gradient(135deg, rgba(45, 90, 69, 1) 0%, rgba(34, 37, 43, 1) 100%);
-        }
-
-        .feature h3 {
-            color: #fff;
-            margin-bottom: 8px;
-            font-size: 16px;
-            font-weight: 600;
-        }
-
-        .feature p {
-            color: #95e1af;
-            font-size: 13px;
-        }
-
-        .download-section {
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .version-info {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 20px;
-            border-radius: 12px;
-            margin-bottom: 25px;
-            border: 2px solid #dee2e6;
-            transition: all 0.3s ease;
-        }
-
-        .version-info:hover {
-            border-color: #667eea;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
-        }
-
-        .version-info p {
-            color: #555;
-            margin: 8px 0;
-            font-size: 15px;
-        }
-
-        .download-btn {
+        .cta-primary {
             display: inline-block;
             padding: 18px 50px;
-            background: linear-gradient(135deg, #3a7d5c 0%, #2d5a45 100%);
-            color: white;
+            background: linear-gradient(135deg, var(--warm-primary), var(--warm-secondary));
+            color: var(--text-primary);
             text-decoration: none;
             border-radius: 12px;
-            font-size: 20px;
-            font-weight: bold;
-            transition: all 0.4s ease;
-            cursor: pointer;
+            font-size: 18px;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
             border: none;
-            box-shadow: 0 8px 25px rgba(58, 125, 92, 0.4);
+            cursor: pointer;
             position: relative;
             overflow: hidden;
         }
 
-        .download-btn::before {
+        .cta-primary::before {
             content: '';
             position: absolute;
             top: 0;
             left: -100%;
             width: 100%;
             height: 100%;
-            background: rgba(255, 255, 255, 0.3);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
             transition: left 0.5s ease;
         }
 
-        .download-btn:hover::before {
+        .cta-primary:hover::before {
             left: 100%;
         }
 
-        .download-btn:hover {
+        .cta-primary:hover {
             transform: translateY(-5px) scale(1.05);
-            box-shadow: 0 12px 35px rgba(58, 125, 92, 0.6);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.6);
         }
 
-        .instructions {
-            background: linear-gradient(135deg, rgba(58, 125, 92, 0.15) 0%, rgba(45, 90, 69, 0.1) 100%);
-            padding: 25px;
-            border-radius: 15px;
-            border-left: 5px solid #3a7d5c;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(58, 125, 92, 0.2);
-        }
-
-        .instructions:hover {
-            box-shadow: 0 8px 25px rgba(58, 125, 92, 0.3);
-            transform: translateX(5px);
-        }
-
-        .instructions h3 {
-            color: #3a7d5c;
-            margin-bottom: 15px;
-            font-size: 20px;
-            font-weight: 600;
-        }
-
-        .instructions ol {
-            margin-left: 20px;
-            color: #95e1af;
-        }
-
-        .instructions li {
-            margin-bottom: 12px;
-            font-size: 15px;
-            transition: all 0.2s ease;
-        }
-
-        .instructions li:hover {
-            transform: translateX(5px);
-            color: #3a7d5c;
-        }
-
-        .discord-section {
+        /* Social Proof */
+        .social-proof {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
             margin-top: 30px;
-            padding: 35px;
-            background: linear-gradient(135deg, rgba(45, 90, 69, 0.8) 0%, rgba(34, 37, 43, 0.8) 100%);
-            border-radius: 15px;
-            text-align: center;
+            padding: 12px 24px;
+            background: rgba(255, 107, 53, 0.1);
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            border-radius: 50px;
+            font-size: 14px;
+            color: var(--text-secondary);
             transition: all 0.3s ease;
-            border: 2px solid rgba(58, 125, 92, 0.3);
         }
 
-        .discord-section:hover {
-            border-color: #3a7d5c;
-            box-shadow: 0 10px 30px rgba(58, 125, 92, 0.5);
+        .social-proof:hover {
+            background: rgba(255, 107, 53, 0.15);
+            transform: scale(1.05);
         }
 
-        .discord-section h3 {
-            color: #fff;
-            margin-bottom: 10px;
-            font-size: 26px;
+        .social-proof-number {
             font-weight: 700;
-        }
-
-        .discord-section p {
-            color: #95e1af;
-            margin-bottom: 20px;
+            color: var(--warm-primary);
             font-size: 16px;
         }
 
-        .discord-section iframe {
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
-            transition: all 0.3s ease;
+        /* Features Grid */
+        .features-section {
+            padding: 60px 0;
         }
 
-        .discord-section iframe:hover {
-            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
-            transform: scale(1.02);
-        }
-
-        .discord-btn {
-            display: inline-block;
-            padding: 15px 35px;
-            background: linear-gradient(135deg, #3a7d5c, #2d5a45);
-            color: white;
-            text-decoration: none;
-            border-radius: 12px;
-            font-size: 18px;
-            font-weight: bold;
-            transition: all 0.3s ease;
-            box-shadow: 0 6px 20px rgba(58, 125, 92, 0.4);
-        }
-
-        .discord-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 10px 30px rgba(58, 125, 92, 0.6);
-        }
-
-        .anticheat-section {
-            margin-bottom: 25px;
-            padding: 20px;
-            background: linear-gradient(135deg, rgba(45, 90, 69, 0.8) 0%, rgba(34, 37, 43, 0.8) 100%);
-            border-radius: 15px;
-            border: 2px solid #3a7d5c;
-        }
-
-        .anticheat-section h3 {
-            color: #fff;
-            margin-bottom: 15px;
-            font-size: 20px;
+        .section-title {
             text-align: center;
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 50px;
+            color: var(--text-primary);
         }
 
-        .anticheat-grid {
+        .features-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-            gap: 15px;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            margin-bottom: 60px;
         }
 
-        .anticheat-item {
-            background: rgba(34, 37, 43, 0.9);
-            padding: 10px;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 2px 8px rgba(58, 125, 92, 0.3);
-            border: 1px solid rgba(58, 125, 92, 0.3);
+        .feature-card {
+            background: linear-gradient(135deg, var(--cold-secondary), var(--cold-accent));
+            padding: 35px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 107, 53, 0.1);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            cursor: pointer;
         }
 
-        .anticheat-item:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 5px 15px rgba(58, 125, 92, 0.3);
+        .feature-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--warm-primary);
+            box-shadow: 0 20px 50px rgba(255, 107, 53, 0.2);
+            background: linear-gradient(135deg, var(--cold-accent), var(--cold-secondary));
         }
 
-        .check-icon {
-            color: #3a7d5c;
-            font-size: 18px;
-            font-weight: bold;
-        }
-
-        .anticheat-item p {
-            color: #fff;
-            font-weight: 600;
-            margin: 0;
-        }
-
-        .video-section {
-            margin-bottom: 40px;
-            padding: 30px;
-            background: linear-gradient(135deg, rgba(45, 90, 69, 0.8) 0%, rgba(34, 37, 43, 0.8) 100%);
-            border-radius: 15px;
-            border: 2px solid rgba(58, 125, 92, 0.3);
-        }
-
-        .video-section h3 {
-            color: #fff;
+        .feature-icon {
+            font-size: 40px;
             margin-bottom: 20px;
-            font-size: 24px;
+            display: block;
+            transition: all 0.3s ease;
+        }
+
+        .feature-card:hover .feature-icon {
+            transform: scale(1.2) rotate(5deg);
+        }
+
+        .feature-title {
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .feature-description {
+            font-size: 15px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Pricing Section */
+        .pricing-section {
+            padding: 80px 0;
             text-align: center;
         }
 
-        .video-container {
-            position: relative;
-            max-width: 800px;
+        .price-card {
+            max-width: 450px;
             margin: 0 auto;
+            background: linear-gradient(135deg, var(--cold-secondary), var(--cold-accent));
+            padding: 50px 40px;
+            border-radius: 30px;
+            border: 2px solid var(--warm-primary);
+            position: relative;
+            transition: all 0.4s ease;
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.3);
         }
 
-        .video-link-btn {
+        .price-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 30px 80px rgba(255, 107, 53, 0.5);
+        }
+
+        .price-badge {
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, var(--warm-primary), var(--warm-secondary));
+            padding: 10px 30px;
+            border-radius: 50px;
+            font-weight: 700;
+            font-size: 14px;
+            box-shadow: 0 5px 20px rgba(255, 107, 53, 0.5);
+            letter-spacing: 1px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .price-title {
+            font-size: 28px;
+            font-weight: 700;
+            margin-bottom: 30px;
+            color: var(--text-primary);
+        }
+
+        .price-amount {
+            font-size: 64px;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--warm-primary), var(--warm-accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            line-height: 1;
+            margin-bottom: 10px;
+        }
+
+        .price-old {
+            font-size: 28px;
+            color: var(--text-muted);
+            text-decoration: line-through;
             display: block;
-            text-decoration: none;
-            cursor: pointer;
+            margin-bottom: 15px;
+        }
+
+        .price-period {
+            color: var(--text-secondary);
+            font-size: 16px;
+            margin-bottom: 40px;
+        }
+
+        .price-features {
+            list-style: none;
+            text-align: left;
+            margin-bottom: 40px;
+        }
+
+        .price-features li {
+            padding: 15px 0;
+            color: var(--text-secondary);
+            font-size: 16px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .price-features li:hover {
+            color: var(--warm-primary);
+            padding-left: 10px;
+        }
+
+        .price-features li:last-child {
+            border-bottom: none;
+        }
+
+        .price-features li::before {
+            content: '✓';
+            color: var(--warm-primary);
+            font-weight: 700;
+            margin-right: 12px;
+        }
+
+        /* Video Section */
+        .video-section {
+            padding: 60px 0;
+            text-align: center;
+        }
+
+        .video-wrapper {
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transition: all 0.4s ease;
+            position: relative;
+        }
+
+        .video-wrapper:hover {
+            transform: scale(1.02);
+            box-shadow: 0 25px 80px rgba(255, 107, 53, 0.4);
         }
 
         .video-thumbnail {
             position: relative;
             width: 100%;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
-        }
-
-        .video-thumbnail:hover {
-            transform: scale(1.02);
-            box-shadow: 0 15px 40px rgba(58, 125, 92, 0.5);
+            cursor: pointer;
         }
 
         .video-thumbnail img {
@@ -510,884 +503,423 @@
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 80px;
-            height: 80px;
-            background: rgba(58, 125, 92, 0.9);
+            width: 90px;
+            height: 90px;
+            background: linear-gradient(135deg, var(--warm-primary), var(--warm-secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 32px;
+            font-size: 36px;
             color: white;
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.5);
         }
 
         .video-thumbnail:hover .play-button {
-            background: rgba(45, 90, 69, 1);
-            transform: translate(-50%, -50%) scale(1.1);
+            transform: translate(-50%, -50%) scale(1.15);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.7);
         }
 
-        .pricing-section {
-            margin-bottom: 25px;
-            display: flex;
-            justify-content: center;
+        /* Testimonials */
+        .testimonials-section {
+            padding: 60px 0;
         }
 
-        .price-card {
-            background: linear-gradient(135deg, rgba(45, 90, 69, 0.95) 0%, rgba(34, 37, 43, 0.95) 100%);
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .testimonial-card {
+            background: linear-gradient(135deg, var(--cold-secondary), var(--cold-accent));
             padding: 30px;
             border-radius: 20px;
-            box-shadow: 0 15px 40px rgba(58, 125, 92, 0.3);
-            max-width: 450px;
-            text-align: center;
-            position: relative;
-            border: 3px solid #3a7d5c;
+            border: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
         }
 
-        .price-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 20px 50px rgba(58, 125, 92, 0.6);
+        .testimonial-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--warm-primary);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.2);
         }
 
-        .price-badge {
-            position: absolute;
-            top: -15px;
-            left: 50%;
-            transform: translateX(-50%);
-            background: linear-gradient(135deg, #3a7d5c, #2d5a45);
-            color: white;
-            padding: 8px 20px;
-            border-radius: 20px;
-            font-weight: bold;
-            font-size: 14px;
-            box-shadow: 0 4px 15px rgba(255, 215, 0, 0.5);
-        }
-
-        .price-card h3 {
-            color: #fff;
-            font-size: 28px;
-            margin-bottom: 20px;
-        }
-
-        .price {
-            margin-bottom: 20px;
-        }
-
-        .price-amount {
-            display: block;
-            font-size: 42px;
-            font-weight: bold;
-            color: #3a7d5c;
-            line-height: 1;
-        }
-
-        .price-old {
-            display: block;
-            font-size: 24px;
-            color: #888;
-            text-decoration: line-through;
-            margin-bottom: 5px;
-        }
-
-        .price-discount {
-            display: block;
-            background: linear-gradient(135deg, #e74c3c, #c0392b);
-            color: white;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 14px;
-            font-weight: bold;
-            margin: 10px auto 15px auto;
-            animation: pulse 2s ease-in-out infinite;
-            width: fit-content;
-        }
-
-        .price-period {
-            color: #95e1af;
-            font-size: 16px;
-        }
-
-        .price-features {
-            list-style: none;
-            padding: 0;
-            margin-bottom: 30px;
-            text-align: left;
-        }
-
-        .price-features li {
-            padding: 12px 0;
-            color: #95e1af;
+        .testimonial-text {
             font-size: 15px;
-            border-bottom: 1px solid rgba(58, 125, 92, 0.3);
+            color: var(--text-secondary);
+            margin-bottom: 20px;
+            line-height: 1.7;
+            font-style: italic;
         }
 
-        .price-features li:last-child {
-            border-bottom: none;
-        }
-
-        .buy-btn {
-            width: 100%;
-            padding: 18px 40px;
-            background: linear-gradient(135deg, #3a7d5c 0%, #2d5a45 100%);
-            color: white;
-            border: none;
-            border-radius: 12px;
-            font-size: 20px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: all 0.4s ease;
-            box-shadow: 0 8px 25px rgba(58, 125, 92, 0.6);
-        }
-
-        .buy-btn:hover {
-            transform: translateY(-3px) scale(1.05);
-            box-shadow: 0 12px 35px rgba(58, 125, 92, 0.8);
-        }
-
-        .footer {
-            text-align: center;
-            padding: 30px 20px;
-            margin-top: 40px;
-            background: rgba(34, 37, 43, 0.95);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            border: 1px solid rgba(58, 125, 92, 0.3);
-        }
-
-        .footer p {
-            color: #95e1af;
-            font-size: 14px;
-            margin: 5px 0;
-        }
-
-        .footer .author {
-            color: #3a7d5c;
-            font-weight: bold;
-            font-size: 16px;
-        }
-
-        /* Notification Pop-ups */
-        .notification-container {
-            position: fixed;
-            bottom: 20px;
-            left: 20px;
-            z-index: 9999;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .notification {
-            background: rgba(34, 37, 43, 0.98);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(58, 125, 92, 0.5);
-            border-radius: 12px;
-            padding: 15px 20px;
-            box-shadow: 0 10px 30px rgba(58, 125, 92, 0.4);
+        .testimonial-author {
             display: flex;
             align-items: center;
-            gap: 12px;
-            min-width: 300px;
-            animation: slideInLeft 0.5s ease-out, fadeOut 0.5s ease-out 4.5s forwards;
+            gap: 15px;
+        }
+
+        .testimonial-avatar {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, var(--warm-primary), var(--warm-secondary));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: 700;
+        }
+
+        .testimonial-info h4 {
+            color: var(--text-primary);
+            font-weight: 600;
+            font-size: 16px;
+        }
+
+        .testimonial-info p {
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+
+        /* Discord Section */
+        .discord-section {
+            padding: 80px 0;
+            text-align: center;
+        }
+
+        .discord-card {
+            max-width: 600px;
+            margin: 0 auto;
+            background: linear-gradient(135deg, var(--cold-secondary), var(--cold-accent));
+            padding: 50px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 107, 53, 0.2);
+            transition: all 0.4s ease;
+        }
+
+        .discord-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 60px rgba(255, 107, 53, 0.3);
+        }
+
+        .discord-icon {
+            font-size: 60px;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .discord-title {
+            font-size: 32px;
+            font-weight: 700;
+            margin-bottom: 15px;
+            color: var(--text-primary);
+        }
+
+        .discord-description {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+        }
+
+        .cta-secondary {
+            display: inline-block;
+            padding: 15px 40px;
+            background: transparent;
+            border: 2px solid var(--warm-primary);
+            color: var(--warm-primary);
+            text-decoration: none;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 600;
             transition: all 0.3s ease;
         }
 
-        .notification:hover {
-            transform: translateX(5px);
-            box-shadow: 0 15px 35px rgba(58, 125, 92, 0.6);
+        .cta-secondary:hover {
+            background: var(--warm-primary);
+            color: var(--text-primary);
+            transform: translateY(-3px);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.4);
         }
 
-        @keyframes slideInLeft {
-            from {
-                transform: translateX(-100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
+        /* Footer */
+        .footer {
+            padding: 40px 0;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 60px;
         }
 
-        @keyframes fadeOut {
-            from {
-                opacity: 1;
-            }
-            to {
-                opacity: 0;
-                transform: translateX(-20px);
-            }
-        }
-
-        .notification-icon {
-            font-size: 24px;
-            animation: pulse 2s ease-in-out infinite;
-        }
-
-        .notification-content {
-            flex: 1;
-        }
-
-        .notification-text {
-            color: #ffffff;
+        .footer-text {
+            color: var(--text-muted);
             font-size: 14px;
-            font-weight: 500;
-            margin-bottom: 3px;
         }
 
-        .notification-location {
-            color: #3a7d5c;
-            font-size: 12px;
+        .footer-author {
+            color: var(--warm-primary);
             font-weight: 600;
         }
 
-        .notification-flag {
-            font-size: 20px;
-        }
-
-        /* Countdown Timer */
-        .countdown-section {
-            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
-            padding: 20px;
-            border-radius: 15px;
-            text-align: center;
-            margin-bottom: 25px;
-            box-shadow: 0 15px 35px rgba(255, 107, 107, 0.4);
-            border: 2px solid rgba(255, 107, 107, 0.5);
-        }
-
-        .countdown-title {
-            color: white;
-            font-size: 22px;
-            font-weight: bold;
-            margin-bottom: 15px;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .countdown-timer {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-        }
-
-        .countdown-item {
-            background: rgba(255, 255, 255, 0.2);
-            backdrop-filter: blur(10px);
-            padding: 15px 25px;
-            border-radius: 12px;
-            min-width: 80px;
-        }
-
-        .countdown-number {
-            display: block;
-            font-size: 36px;
-            font-weight: bold;
-            color: white;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .countdown-label {
-            display: block;
-            font-size: 14px;
-            color: rgba(255, 255, 255, 0.9);
-            text-transform: uppercase;
-            margin-top: 5px;
-        }
-
-        /* Purchase Counter */
-        .purchase-counter {
-            background: linear-gradient(135deg, #3a7d5c 0%, #2d5a45 100%);
-            padding: 15px 25px;
-            border-radius: 12px;
-            text-align: center;
-            margin-bottom: 25px;
-            box-shadow: 0 10px 25px rgba(58, 125, 92, 0.4);
-            border: 2px solid rgba(58, 125, 92, 0.5);
-        }
-
-        .purchase-counter-text {
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
-        }
-
-        .purchase-number {
-            color: #fff59d;
-            font-size: 24px;
-        }
-
-        /* Comparison Section */
-        .comparison-section {
-            background: rgba(34, 37, 43, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 15px 35px rgba(58, 125, 92, 0.3);
-            border: 1px solid rgba(58, 125, 92, 0.3);
-        }
-
-        .comparison-section h3 {
-            color: #3a7d5c;
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 25px;
-        }
-
-        .comparison-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-
-        .comparison-table th,
-        .comparison-table td {
-            padding: 15px;
-            text-align: center;
-            border: 1px solid rgba(58, 125, 92, 0.3);
-        }
-
-        .comparison-table th {
-            background: linear-gradient(135deg, #3a7d5c 0%, #2d5a45 100%);
-            color: white;
-            font-weight: bold;
-        }
-
-        .comparison-table td {
-            color: #95e1af;
-            background: rgba(45, 90, 69, 0.3);
-        }
-
-        .comparison-table .ecto-column {
-            background: linear-gradient(135deg, rgba(58, 125, 92, 0.3) 0%, rgba(45, 90, 69, 0.3) 100%);
-        }
-
-        .check-yes {
-            color: #3a7d5c;
-            font-size: 20px;
-        }
-
-        .check-no {
-            color: #e74c3c;
-            font-size: 20px;
-        }
-
-        /* FAQ Section */
-        .faq-section {
-            background: rgba(34, 37, 43, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 30px;
-            border-radius: 15px;
-            margin-bottom: 25px;
-            box-shadow: 0 15px 35px rgba(58, 125, 92, 0.3);
-            border: 1px solid rgba(58, 125, 92, 0.3);
-        }
-
-        .faq-section h3 {
-            color: #3a7d5c;
-            text-align: center;
-            font-size: 28px;
-            margin-bottom: 25px;
-        }
-
-        .faq-item {
-            background: rgba(45, 90, 69, 0.3);
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 15px;
-            border: 1px solid rgba(58, 125, 92, 0.3);
-            transition: all 0.3s ease;
-            cursor: pointer;
-        }
-
-        .faq-item:hover {
-            border-color: #3a7d5c;
-            box-shadow: 0 5px 20px rgba(58, 125, 92, 0.4);
-            transform: translateY(-2px);
-        }
-
-        .faq-question {
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 10px;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .faq-answer {
-            color: #95e1af;
-            font-size: 15px;
-            line-height: 1.6;
-        }
-
-        /* Live Chat Bubble */
+        /* Live Chat */
         .chat-bubble {
             position: fixed;
-            bottom: 20px;
-            right: 20px;
+            bottom: 30px;
+            right: 30px;
             z-index: 10000;
         }
 
         .chat-button {
-            background: linear-gradient(135deg, #3a7d5c 0%, #2d5a45 100%);
-            width: 60px;
-            height: 60px;
+            width: 65px;
+            height: 65px;
+            background: linear-gradient(135deg, var(--warm-primary), var(--warm-secondary));
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
             cursor: pointer;
-            box-shadow: 0 8px 25px rgba(58, 125, 92, 0.6);
+            box-shadow: 0 10px 30px rgba(255, 107, 53, 0.5);
             transition: all 0.3s ease;
-            animation: pulse 2s ease-in-out infinite;
+            font-size: 32px;
         }
 
         .chat-button:hover {
             transform: scale(1.1);
-            box-shadow: 0 12px 35px rgba(58, 125, 92, 0.8);
+            box-shadow: 0 15px 40px rgba(255, 107, 53, 0.7);
         }
 
-        .chat-button-icon {
-            font-size: 28px;
-        }
-
-        .chat-popup {
-            display: none;
-            position: absolute;
-            bottom: 80px;
-            right: 0;
-            width: 300px;
-            background: rgba(34, 37, 43, 0.98);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(58, 125, 92, 0.5);
-            border-radius: 15px;
-            padding: 20px;
-            box-shadow: 0 15px 40px rgba(58, 125, 92, 0.5);
-        }
-
-        .chat-popup.active {
-            display: block;
-            animation: slideUp 0.3s ease-out;
-        }
-
-        @keyframes slideUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
+        /* Responsive */
+        @media (max-width: 768px) {
+            .main-nav {
+                display: none;
             }
-            to {
-                opacity: 1;
-                transform: translateY(0);
+
+            .hero h1 {
+                font-size: 40px;
+            }
+
+            .hero-subtitle {
+                font-size: 16px;
+            }
+
+            .section-title {
+                font-size: 28px;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .testimonials-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .price-amount {
+                font-size: 48px;
             }
         }
-
-        .chat-header {
-            color: white;
-            font-size: 18px;
-            font-weight: bold;
-            margin-bottom: 15px;
-        }
-
-        .chat-message {
-            color: #95e1af;
-            font-size: 14px;
-            line-height: 1.6;
-            margin-bottom: 15px;
-        }
-
-        .chat-cta {
-            background: linear-gradient(135deg, #3a7d5c 0%, #2d5a45 100%);
-            color: white;
-            padding: 12px 20px;
-            border: none;
-            border-radius: 8px;
-            width: 100%;
-            cursor: pointer;
-            font-weight: bold;
-            transition: all 0.3s ease;
-        }
-
-        .chat-cta:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(58, 125, 92, 0.6);
-        }
-
-        /* Snowflakes Animation */
-        .snowflake {
-            position: fixed;
-            top: -10px;
-            z-index: 9999;
-            user-select: none;
-            cursor: default;
-            animation-name: snowfall;
-            animation-duration: 10s;
-            animation-timing-function: linear;
-            animation-iteration-count: infinite;
-            color: #fff;
-            font-size: 1em;
-            opacity: 0.8;
-        }
-
-        @keyframes snowfall {
-            0% {
-                transform: translateY(0vh) rotate(0deg);
-                opacity: 1;
-            }
-            100% {
-                transform: translateY(100vh) rotate(360deg);
-                opacity: 0.3;
-            }
-        }
-
-        .snowflake:nth-of-type(0) { left: 1%; animation-delay: 0s; font-size: 0.8em; }
-        .snowflake:nth-of-type(1) { left: 10%; animation-delay: 1s; font-size: 1.2em; }
-        .snowflake:nth-of-type(2) { left: 20%; animation-delay: 6s; font-size: 0.9em; }
-        .snowflake:nth-of-type(3) { left: 30%; animation-delay: 4s; font-size: 1.1em; }
-        .snowflake:nth-of-type(4) { left: 40%; animation-delay: 2s; font-size: 0.7em; }
-        .snowflake:nth-of-type(5) { left: 50%; animation-delay: 8s; font-size: 1.3em; }
-        .snowflake:nth-of-type(6) { left: 60%; animation-delay: 6s; font-size: 0.85em; }
-        .snowflake:nth-of-type(7) { left: 70%; animation-delay: 2.5s; font-size: 1em; }
-        .snowflake:nth-of-type(8) { left: 80%; animation-delay: 1s; font-size: 1.15em; }
-        .snowflake:nth-of-type(9) { left: 90%; animation-delay: 3s; font-size: 0.95em; }
     </style>
 </head>
 <body>
-    <!-- Snowflakes -->
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❅</div>
-    <div class="snowflake">❆</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❅</div>
-    <div class="snowflake">❆</div>
-    <div class="snowflake">❄</div>
-    <div class="snowflake">❅</div>
-    <div class="snowflake">❆</div>
-    <div class="snowflake">❄</div>
-
-    <div class="header">
-        <div class="header-left">
-            <div class="logo">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png" alt="Gengar">
-            </div>
-            <h1>Ecto Clicker</h1>
-        </div>
-    </div>
-
-    <div class="download-container">
-        <div class="download-header">
-            <div class="status-badge">
-                <div class="status-dot"></div>
-                UNDETECTED
-            </div>
-            <div class="minecraft-icon">
-                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png" alt="Gengar">
-            </div>
-            <h2>Ecto Clicker for Minecraft</h2>
-            <p>The Ultimate Premium Auto-Clicker Experience</p>
-        </div>
-
-        <div class="features">
-            <div class="feature">
-                <h3>⚡ Lightning Fast</h3>
-                <p>Ultra-fast and precise clicks</p>
-            </div>
-            <div class="feature">
-                <h3>🎮 Universal</h3>
-                <p>Works with all Minecraft versions</p>
-            </div>
-            <div class="feature">
-                <h3>🛡️ Undetected</h3>
-                <p>Invisible to all anti-cheats</p>
-            </div>
-            <div class="feature">
-                <h3>🎣 Auto-Rod PvP</h3>
-                <p>Automatic fishing rod for PvP</p>
-            </div>
-            <div class="feature">
-                <h3>⚙️ Fully Customizable</h3>
-                <p>Tailor settings to your playstyle</p>
-            </div>
-        </div>
-
-        <div class="anticheat-section">
-            <h3>🛡️ Bypasses All Major Anti-Cheats</h3>
-            <div class="anticheat-grid">
-                <div class="anticheat-item">
-                    <span class="check-icon">✓</span>
-                    <p>RinAorc</p>
+    <!-- en-tete du site -->
+    <header class="header">
+        <div class="container">
+            <div class="header-content">
+                <div class="logo-section">
+                    <div class="logo">
+                        <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png" alt="Gengar">
+                    </div>
+                    <div class="brand-name">Ecto Clicker</div>
                 </div>
-                <div class="anticheat-item">
-                    <span class="check-icon">✓</span>
-                    <p>Spartan</p>
-                </div>
-                <div class="anticheat-item">
-                    <span class="check-icon">✓</span>
-                    <p>Matrix</p>
-                </div>
-                <div class="anticheat-item">
-                    <span class="check-icon">✓</span>
-                    <p>Vulcan</p>
-                </div>
-                <div class="anticheat-item">
-                    <span class="check-icon">✓</span>
-                    <p>NCP</p>
-                </div>
-                <div class="anticheat-item">
-                    <span class="check-icon">✓</span>
-                    <p>AAC</p>
+                <nav class="main-nav">
+                    <a href="#features" class="nav-link">Features</a>
+                    <a href="#pricing" class="nav-link">Pricing</a>
+                    <a href="#demo" class="nav-link">Demo</a>
+                    <a href="https://discord.gg/NrEUhJdkbH" target="_blank" class="nav-link">Discord</a>
+                </nav>
+                <div class="status-badge">
+                    <div class="status-dot"></div>
+                    <span>UNDETECTED</span>
                 </div>
             </div>
         </div>
+    </header>
 
-        <div class="purchase-counter">
-            <div class="purchase-counter-text">
-                🔥 <span class="purchase-number" id="purchaseCount">0</span> purchases in the last 24 hours!
+    <!-- partie hero avec le gros titre -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-icon">
+                <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/other/official-artwork/94.png" alt="Ecto Clicker">
+            </div>
+            <h1>Premium Auto-Clicker<br>For Minecraft</h1>
+            <p class="hero-subtitle">Undetectable. Lightning fast. Built for champions.</p>
+            <button class="cta-primary" onclick="buyNow()">Get Started - €10</button>
+            <div class="social-proof">
+                🔥 <span class="social-proof-number" id="purchaseCount">127</span> players joined this week
             </div>
         </div>
+    </section>
 
-        <div class="pricing-section">
+    <!-- les features du clicker -->
+    <section id="features" class="features-section">
+        <div class="container">
+            <h2 class="section-title">Why Choose Ecto Clicker?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <span class="feature-icon">⚡</span>
+                    <h3 class="feature-title">Lightning Fast</h3>
+                    <p class="feature-description">Ultra-precise clicks with customizable CPS. Dominate every PvP battle.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🛡️</span>
+                    <h3 class="feature-title">100% Undetected</h3>
+                    <p class="feature-description">Bypasses all major anti-cheats including Hypixel, AAC, NCP, and more.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🎣</span>
+                    <h3 class="feature-title">Auto-Rod PvP</h3>
+                    <p class="feature-description">Advanced fishing rod automation for professional PvP gameplay.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">⚙️</span>
+                    <h3 class="feature-title">Fully Customizable</h3>
+                    <p class="feature-description">Tailor every setting to match your unique playstyle and preferences.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">🔄</span>
+                    <h3 class="feature-title">Lifetime Updates</h3>
+                    <p class="feature-description">Free updates forever. Always stay ahead of the game.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="feature-icon">💬</span>
+                    <h3 class="feature-title">24/7 Support</h3>
+                    <p class="feature-description">Premium Discord support. We're always here to help you succeed.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- section prix avec promo -->
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <h2 class="section-title">Limited Time Offer</h2>
             <div class="price-card">
-                <div class="price-badge">🎄 CHRISTMAS SALE 🎄</div>
-                <h3>Ecto Clicker Premium</h3>
-                <div class="price">
-                    <span class="price-old">€20</span>
-                    <span class="price-amount">€10</span>
-                    <span class="price-discount">-50% OFF!</span>
-                    <span class="price-period">Lifetime Access</span>
-                </div>
+                <div class="price-badge">🎄 LIMITED TIME -50%</div>
+                <h3 class="price-title">Ecto Clicker Premium</h3>
+                <span class="price-old">€20</span>
+                <div class="price-amount">€10</div>
+                <p class="price-period">One-time payment • Lifetime access</p>
                 <ul class="price-features">
-                    <li>✓ Lightning-fast auto-clicker</li>
-                    <li>✓ Auto-rod fishing rod for PvP</li>
-                    <li>✓ Undetected by all anti-cheats</li>
-                    <li>✓ Free lifetime updates</li>
-                    <li>✓ Priority Discord support</li>
-                    <li>✓ Fully customizable settings</li>
+                    <li>Lightning-fast auto-clicker</li>
+                    <li>Auto-rod PvP feature</li>
+                    <li>Undetected by all anti-cheats</li>
+                    <li>Lifetime free updates</li>
+                    <li>Priority Discord support</li>
+                    <li>Full customization</li>
                 </ul>
-                <button class="buy-btn" onclick="buyNow()">
-                    💳 Buy Now
-                </button>
+                <button class="cta-primary" onclick="buyNow()">Buy Now - €10</button>
+                <p style="color: var(--text-muted); font-size: 13px; margin-top: 15px;">⚡ Only 7 licenses left at this price</p>
             </div>
         </div>
+    </section>
 
-        <div class="video-section">
-            <h3>🎥 Watch It In Action</h3>
-            <div class="video-container">
-                <a href="https://youtu.be/pZ-Vu73ay0Y" target="_blank" class="video-link-btn">
+    <!-- video demo du clicker -->
+    <section id="demo" class="video-section">
+        <div class="container">
+            <h2 class="section-title">See It In Action</h2>
+            <div class="video-wrapper">
+                <a href="https://youtu.be/pZ-Vu73ay0Y" target="_blank">
                     <div class="video-thumbnail">
-                        <img src="https://img.youtube.com/vi/pZ-Vu73ay0Y/maxresdefault.jpg" alt="Ecto Clicker Demonstration">
+                        <img src="https://img.youtube.com/vi/pZ-Vu73ay0Y/maxresdefault.jpg" alt="Ecto Clicker Demo">
                         <div class="play-button">▶</div>
                     </div>
-                    <p style="color: #c4b5fd; margin-top: 15px; font-size: 16px;">
-                        🎬 Click to watch the premium experience on YouTube
-                    </p>
                 </a>
             </div>
         </div>
+    </section>
 
-        <div class="comparison-section">
-            <h3>🆚 Why Choose Ecto Clicker?</h3>
-            <table class="comparison-table">
-                <thead>
-                    <tr>
-                        <th>Feature</th>
-                        <th class="ecto-column">Ecto Clicker</th>
-                        <th>Other Clickers</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Undetected</td>
-                        <td class="ecto-column"><span class="check-yes">✓</span></td>
-                        <td><span class="check-no">✗</span></td>
-                    </tr>
-                    <tr>
-                        <td>Auto-Rod Feature</td>
-                        <td class="ecto-column"><span class="check-yes">✓</span></td>
-                        <td><span class="check-no">✗</span></td>
-                    </tr>
-                    <tr>
-                        <td>Customizable CPS</td>
-                        <td class="ecto-column"><span class="check-yes">✓</span></td>
-                        <td><span class="check-yes">✓</span></td>
-                    </tr>
-                    <tr>
-                        <td>Lifetime Updates</td>
-                        <td class="ecto-column"><span class="check-yes">✓</span></td>
-                        <td><span class="check-no">✗</span></td>
-                    </tr>
-                    <tr>
-                        <td>24/7 Support</td>
-                        <td class="ecto-column"><span class="check-yes">✓</span></td>
-                        <td><span class="check-no">✗</span></td>
-                    </tr>
-                    <tr>
-                        <td>Price</td>
-                        <td class="ecto-column">€10</td>
-                        <td>€15-30</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="faq-section">
-            <h3>❓ Frequently Asked Questions</h3>
-            <div class="faq-item">
-                <div class="faq-question">🛡️ Is Ecto Clicker safe to use?</div>
-                <div class="faq-answer">Yes! Ecto Clicker is completely undetected by all major anti-cheats including Hypixel Watchdog, AAC, NCP, and more. Our advanced randomization technology ensures you stay safe.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">💻 What operating systems are supported?</div>
-                <div class="faq-answer">Ecto Clicker works on Windows 10 and Windows 11. We're working on Mac support for future updates!</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">🔄 Do I get free updates?</div>
-                <div class="faq-answer">Absolutely! Your purchase includes lifetime free updates. We constantly improve the software and add new features.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">💳 What payment methods do you accept?</div>
-                <div class="faq-answer">We accept PayPal, credit cards, and cryptocurrencies. All payments are processed securely through our Discord server.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">⚡ How fast is the delivery?</div>
-                <div class="faq-answer">Instant! Once payment is confirmed, you'll receive your license key and download link immediately in Discord.</div>
-            </div>
-            <div class="faq-item">
-                <div class="faq-question">🎮 Can I use it on multiple PCs?</div>
-                <div class="faq-answer">Each license is valid for one PC. If you need multiple licenses, contact us for a discount!</div>
+    <!-- les avis clients full fake -->
+    <section class="testimonials-section">
+        <div class="container">
+            <h2 class="section-title">What Players Say</h2>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Best auto-clicker I've ever used. Clean interface, super fast, and actually undetected. Worth every penny!"</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">M</div>
+                        <div class="testimonial-info">
+                            <h4>MasterPvP</h4>
+                            <p>Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"The auto-rod feature is insane. My PvP game has completely changed. Support team is super responsive too."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">S</div>
+                        <div class="testimonial-info">
+                            <h4>ShadowKnight</h4>
+                            <p>Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="testimonial-card">
+                    <p class="testimonial-text">"Been using for 3 months on Hypixel. Zero issues, zero bans. This is the real deal."</p>
+                    <div class="testimonial-author">
+                        <div class="testimonial-avatar">D</div>
+                        <div class="testimonial-info">
+                            <h4>DiamondPro</h4>
+                            <p>Verified Buyer</p>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
+    </section>
 
-        <div class="discord-section">
-            <h3>💬 Join Our Premium Community</h3>
-            <p>Need help? Have questions? Join our exclusive Discord server!</p>
-            <iframe src="https://discord.com/widget?id=1126851969936539688&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
-            <div class="discord-link">
-                <a href="https://discord.gg/NrEUhJdkbH" target="_blank" class="discord-btn">
-                    🎮 Join Discord
-                </a>
+    <!-- discord pour le support -->
+    <section class="discord-section">
+        <div class="container">
+            <div class="discord-card">
+                <span class="discord-icon">💬</span>
+                <h3 class="discord-title">Join Our Community</h3>
+                <p class="discord-description">Get instant support, updates, and connect with other premium users.</p>
+                <a href="https://discord.gg/NrEUhJdkbH" target="_blank" class="cta-secondary">Join Discord Server</a>
             </div>
         </div>
-    </div>
+    </section>
 
-    <div class="footer">
-        <p>© 2025 Ecto Clicker - All Rights Reserved</p>
-        <p>Crafted by <span class="author">Wamuu</span></p>
-    </div>
+    <!-- footer en bas -->
+    <footer class="footer">
+        <div class="container">
+            <p class="footer-text">© 2025 Ecto Clicker - All Rights Reserved</p>
+            <p class="footer-text">Made with ❤️ by <span class="footer-author">Wamuu</span></p>
+        </div>
+    </footer>
 
-    <!-- Notification Container -->
-    <div class="notification-container" id="notificationContainer"></div>
-
-    <!-- Live Chat Bubble -->
+    <!-- bouton chat flottant -->
     <div class="chat-bubble">
-        <div class="chat-button" onclick="toggleChat()">
-            <span class="chat-button-icon">💬</span>
-        </div>
-        <div class="chat-popup" id="chatPopup">
-            <div class="chat-header">Need Help? 👋</div>
-            <div class="chat-message">
-                Hi! Have questions about Ecto Clicker? Our support team is available 24/7 on Discord!
-            </div>
-            <button class="chat-cta" onclick="openDiscord()">Chat on Discord</button>
+        <div class="chat-button" onclick="openDiscord()">
+            💬
         </div>
     </div>
 
     <script>
-        function toggleChat() {
-            const popup = document.getElementById('chatPopup');
-            popup.classList.toggle('active');
+        function buyNow() {
+            window.open('https://discord.gg/NrEUhJdkbH', '_blank');
         }
 
         function openDiscord() {
             window.open('https://discord.gg/NrEUhJdkbH', '_blank');
         }
-        function buyNow() {
-            // Redirect to Discord for purchase
-            window.open('https://discord.gg/NrEUhJdkbH', '_blank');
-            alert('🎮 You will be redirected to our Discord!\n\n' +
-                  '📝 To purchase Ecto Clicker Premium:\n' +
-                  '1. Join our Discord server\n' +
-                  '2. Contact an administrator\n' +
-                  '3. Complete the €10 payment\n' +
-                  '4. Receive instant access!\n\n' +
-                  '💳 Secure Payment - Lifetime Access');
-        }
 
-        // Notification System
-        const locations = [
-            { country: 'United States', flag: '🇺🇸' },
-            { country: 'United Kingdom', flag: '🇬🇧' },
-            { country: 'Germany', flag: '🇩🇪' },
-            { country: 'France', flag: '🇫🇷' },
-            { country: 'Canada', flag: '🇨🇦' },
-            { country: 'Australia', flag: '🇦🇺' },
-            { country: 'Japan', flag: '🇯🇵' },
-            { country: 'Brazil', flag: '🇧🇷' },
-            { country: 'Netherlands', flag: '🇳🇱' },
-            { country: 'Spain', flag: '🇪🇸' },
-            { country: 'Italy', flag: '🇮🇹' },
-            { country: 'Sweden', flag: '🇸🇪' },
-            { country: 'Norway', flag: '🇳🇴' },
-            { country: 'Poland', flag: '🇵🇱' },
-            { country: 'Belgium', flag: '🇧🇪' },
-            { country: 'Switzerland', flag: '🇨🇭' }
-        ];
-
-        const messages = [
-            'Someone is viewing this page right now',
-            'Someone just checked out this page',
-            'A visitor is exploring this page',
-            'Someone is currently browsing'
-        ];
-
-        function createNotification() {
-            const container = document.getElementById('notificationContainer');
-            const location = locations[Math.floor(Math.random() * locations.length)];
-            const message = messages[Math.floor(Math.random() * messages.length)];
-            
-            const notification = document.createElement('div');
-            notification.className = 'notification';
-            notification.innerHTML = `
-                <div class="notification-flag">🌍</div>
-                <div class="notification-content">
-                    <div class="notification-text">${message}</div>
-                    <div class="notification-location">${location.flag} From ${location.country}</div>
-                </div>
-                <div class="notification-icon">👁️</div>
-            `;
-            
-            container.appendChild(notification);
-            
-            // Remove notification after 5 seconds
-            setTimeout(() => {
-                notification.remove();
-            }, 5000);
-        }
-
-        // Show first notification after 2 seconds
-        setTimeout(createNotification, 2000);
-
-        // Show random notifications every 8-15 seconds
-        function scheduleNextNotification() {
-            const delay = Math.random() * 7000 + 8000; // Between 8-15 seconds
-            setTimeout(() => {
-                createNotification();
-                scheduleNextNotification();
-            }, delay);
-        }
-
-        scheduleNextNotification();
-
-        // Purchase Counter Animation
-        function animatePurchaseCounter() {
-            const target = Math.floor(Math.random() * 17) + 4; // Random between 4-20
+        // Animated counter
+        function animateCounter() {
+            const counter = document.getElementById('purchaseCount');
+            const target = Math.floor(Math.random() * 50) + 100;
             let current = 0;
             const increment = target / 50;
-            const counter = document.getElementById('purchaseCount');
-
+            
             const timer = setInterval(() => {
                 current += increment;
                 if (current >= target) {
@@ -1399,9 +931,41 @@
             }, 30);
         }
 
-        animatePurchaseCounter();
-        // Update counter every 10 minutes
-        setInterval(animatePurchaseCounter, 600000);
+        animateCounter();
+        setInterval(animateCounter, 600000); // Update every 10 minutes
+
+        // Smooth scroll
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Add active state to nav on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section[id]');
+            const scrollY = window.pageYOffset;
+
+            sections.forEach(section => {
+                const sectionHeight = section.offsetHeight;
+                const sectionTop = section.offsetTop - 100;
+                const sectionId = section.getAttribute('id');
+                const navLink = document.querySelector(`.nav-link[href="#${sectionId}"]`);
+
+                if (scrollY > sectionTop && scrollY <= sectionTop + sectionHeight) {
+                    if (navLink) navLink.style.color = 'var(--warm-primary)';
+                } else {
+                    if (navLink) navLink.style.color = 'var(--text-secondary)';
+                }
+            });
+        });
     </script>
 </body>
-</html> 
+</html>
